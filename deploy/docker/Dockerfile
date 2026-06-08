@@ -20,7 +20,7 @@ COPY deploy/windows deploy/windows
 COPY --from=frontend /src/openjarvis/server/static src/openjarvis/server/static/
 
 RUN pip install --no-cache-dir uv && \
-    uv pip install --system ".[server,inference-cloud]"
+    uv pip install --system ".[server,inference-cloud,inference-google]"
 
 # Stage 3: Runtime
 FROM python:3.12-slim-bookworm
@@ -31,5 +31,7 @@ WORKDIR /app
 
 EXPOSE 8000
 
-ENTRYPOINT ["jarvis"]
-CMD ["serve", "--host", "0.0.0.0", "--port", "8000"]
+COPY deploy/docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
