@@ -6,7 +6,7 @@ services:
     dockerContext: .
     plan: free
     envVars:
-      - key: ANTHROPIC_API_KEY
+      - key: GEMINI_API_KEY
         sync: false
       - key: OPENJARVIS_API_KEY
         generateValue: true
