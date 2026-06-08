@@ -5,6 +5,7 @@ services:
     dockerfilePath: deploy/docker/Dockerfile
     dockerContext: .
     plan: free
+    branch: claude/openjarvis-setup-jc92so
     envVars:
       - key: GEMINI_API_KEY
         sync: false
