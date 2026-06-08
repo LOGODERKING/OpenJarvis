@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: openjarvis
+    runtime: docker
+    dockerfilePath: deploy/docker/Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENJARVIS_API_KEY
+        generateValue: true
+    healthCheckPath: /health

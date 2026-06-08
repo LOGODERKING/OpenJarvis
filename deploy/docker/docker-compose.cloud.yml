@@ -1,0 +1,23 @@
+# Cloud-only deployment — no Ollama required.
+# Set ANTHROPIC_API_KEY (or OPENAI_API_KEY / OPENROUTER_API_KEY) and
+# OPENJARVIS_API_KEY in deploy/docker/.env before running:
+#
+#   docker compose -f docker-compose.cloud.yml up
+services:
+  jarvis:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      # Server auth key — required when binding 0.0.0.0.
+      # Generate one: jarvis auth generate-key
+      - OPENJARVIS_API_KEY=${OPENJARVIS_API_KEY:?OPENJARVIS_API_KEY must be set (see deploy/docker/.env.example)}
+      # LLM provider — set whichever key(s) you have. Precedence:
+      # OpenRouter > Anthropic > OpenAI > Google
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    restart: unless-stopped
